@@ -16,7 +16,10 @@ WHERE name_artist NOT LIKE '% %';
 
 --Название треков, которые содержат слово «мой» или «my».
 SELECT name_track FROM tracks
-WHERE name_track LIKE '%my%';
+WHERE name_track ILIKE 'my'
+OR name_track ILIKE 'my %'
+OR name_track ILIKE '% my'
+OR name_track ILIKE '% my %';
 
 --Количество исполнителей в каждом жанре
 SELECT g.name_genre, COUNT(ag.id_artist) as artist_count FROM genres g
@@ -25,11 +28,9 @@ GROUP BY g.name_genre
 ORDER BY artist_count DESC;
 
 --Количество треков, вошедших в альбомы 2019–2022 годов.
-SELECT a.name_album, COUNT(t.id_track) AS track_count FROM albums a
-JOIN tracks t ON a.id_album = t.id_album
-WHERE a.release_year BETWEEN 2019 AND 2022
-GROUP BY a.name_album
-ORDER BY track_count DESC;
+SELECT COUNT(t.id_track) FROM tracks t 
+JOIN albums a  ON t.id_album = a.id_album
+WHERE a.release_year BETWEEN 2019 AND 2022;
 
 --Средняя продолжительность треков по каждому альбому.
 SELECT a.name_album, AVG(t.duration) AS average_duration FROM tracks t
@@ -42,12 +43,14 @@ WHERE NOT EXISTS (SELECT 1 FROM artist_albums aa
 JOIN albums al ON aa.id_album = al.id_album
 WHERE aa.id_artist = a.id_artist AND al.release_year = 2020
 );
-SELECT * FROM tracks ;
-SELECT * FROM artists;
+
+
 --Названия сборников, в которых присутствует конкретный исполнитель (выберите его сами).
---не работает, не могу разобраться...
-SELECT DISTINCT col.name_collection FROM collections col
-JOIN tracks_collection tc ON col.id_collection = tc.id_collection
-JOIN tracks at ON at.id_track = tc.id_track
-JOIN artists art ON art.id_artist = at.id_artist
+SELECT DISTINCT c.name_collection 
+FROM collections c
+JOIN tracks_collection tc ON c.id_collection = tc.id_collection
+JOIN tracks t ON tc.id_track = t.id_track
+JOIN albums a ON t.id_album = a.id_album
+JOIN artist_albums aa ON a.id_album = aa.id_album
+JOIN artists art ON aa.id_artist = art.id_artist
 WHERE art.name_artist = 'The Beatles';

@@ -25,7 +25,8 @@ VALUES ('Back in the U.S.S.R.', '0:02:43', 1),
        ('Dancing Days', '0:03:43', 3),
        ('Dyer Maker', '0:04:23', 3),
        ('Speak to Me', '0:01:13', 4),
-       ('Breathe', '0:02:43', 4);    
+       ('Breathe', '0:02:43', 4);   
+      
 
 INSERT INTO collections(name_collection, release_year)
 VALUES ('Greatest Hits I', 1981),
@@ -40,6 +41,13 @@ VALUES (1, 1),  -- The Beatles - Rock
        (3, 3),  -- Led Zeppelin - Hard rock
        (4, 4);  -- Pink Floyd - Psychedelic space-rock     
        
+INSERT INTO artist_albums(id_artist, id_album)
+VALUES (1, 1), -- The Beatles - 'The Beatles', 1968
+	   (2, 2), -- Rolling Stones - Goats Head Soup, 1973
+	   (3, 3), -- Led Zeppelin - Houses of the Holy
+	   (4, 4), -- Pink Floyd - The Dark Side of the Moon
+	   (5, 5); -- Rammstein - Zeit
+
 INSERT INTO artists(name_artist)
 VALUES ('Rammstein');       
 INSERT INTO albums(name_album, release_year)
@@ -48,3 +56,9 @@ INSERT INTO tracks(name_track, duration, id_album)
 VALUES ('Schwarz', '0:04:19', 5);
 INSERT INTO collections(name_collection, release_year)
 VALUES ('The Beatles Box Set', 1988);
+
+INSERT INTO tracks_collection(id_track, id_collection)
+VALUES (1, 1), 
+       (2, 2), 
+       (3, 3),  
+       (4, 4);  
